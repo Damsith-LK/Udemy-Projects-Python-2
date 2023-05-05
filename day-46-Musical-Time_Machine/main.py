@@ -12,6 +12,7 @@ URL = "https://www.billboard.com/charts/hot-100"
 if (len(date) != 10) or ("-" not in date):
     quit("Invalid Input")
 
+# Getting the billboard top 100 songs
 response = requests.get(f"{URL}/{date}")
 content = response.text
 soup = BeautifulSoup(content, 'html.parser')
@@ -32,6 +33,7 @@ for song in songs[1:]:
 
 print(songs)
 
+# Authorization with Spotipy
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
         client_id=config.CLIENT_ID,
@@ -46,13 +48,21 @@ user_id = sp.current_user()["id"]
 year = date.split("-")[0]
 songs_uris = []
 
+# Getting the URIs of the songs
 for song in songs:
     result = sp.search(q=f"track:{song} year:{year}", type="track")
     try:
         songs_uris.append(result["tracks"]["items"][0]["uri"])
     except IndexError:
-        pass
+        print("This songs doesn't exist in Spotify, Skipped...")
 
 print(songs_uris)
 
+# Creating the spotify playlist:
+playlist = sp.user_playlist_create(user=config.USER_ID, name=f"{date} Billboard Top 100", public=False)
+print(playlist)
+
+# Getting the already existing playlists on my account
+existing_playlists = sp.user_playlists(user=config.USER_ID)
+print(existing_playlists)
 
