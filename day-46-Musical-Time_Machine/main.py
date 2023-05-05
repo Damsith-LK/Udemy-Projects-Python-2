@@ -1,5 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+import config
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+from pprint import pprint
 
 date = input("Which year do you want to go back (Enter the date in the format of YYYY-MM-DD): ")
 URL = "https://www.billboard.com/charts/hot-100"
@@ -27,3 +31,28 @@ for song in songs[1:]:
     songs.insert(index, i)
 
 print(songs)
+
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        client_id=config.CLIENT_ID,
+        client_secret=config.CLIENT_SECRET,
+        redirect_uri="http://example.com",
+        scope="playlist-modify-private",
+        show_dialog=True,
+        cache_path="token.txt"
+    ))
+
+user_id = sp.current_user()["id"]
+year = date.split("-")[0]
+songs_uris = []
+
+for song in songs:
+    result = sp.search(q=f"track:{song} year:{year}", type="track")
+    try:
+        songs_uris.append(result["tracks"]["items"][0]["uri"])
+    except IndexError:
+        pass
+
+print(songs_uris)
+
+
