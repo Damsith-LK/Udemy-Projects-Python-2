@@ -54,15 +54,35 @@ for song in songs:
     try:
         songs_uris.append(result["tracks"]["items"][0]["uri"])
     except IndexError:
-        print("This songs doesn't exist in Spotify, Skipped...")
+        print("This song doesn't exist in Spotify, Skipped...")
 
 print(songs_uris)
 
-# Creating the spotify playlist:
-playlist = sp.user_playlist_create(user=config.USER_ID, name=f"{date} Billboard Top 100", public=False)
-print(playlist)
+# Creating the spotify playlist after checking if it doesn't already exist:
+playlists = []
+try:
+    with open("existing_playlists.txt", "r") as read_file:
+        playlists = read_file.readlines()
+except FileNotFoundError:
+    playlists = []
+finally:
+    if f"{date} Billboard Top 100" not in playlists:
+        # Creating the playlist
+        playlist = sp.user_playlist_create(user=user_id, name=f"{date} Billboard Top 100", public=False)
+        print(playlist)
 
-# Getting the already existing playlists on my account
-existing_playlists = sp.user_playlists(user=config.USER_ID)
-print(existing_playlists)
+        with open("existing_playlists.txt", 'a') as file:
+            file.write(f'{playlist["name"]}\n')
 
+        # Adding songs to the playlist
+        adding_songs = sp.playlist_add_items(playlist_id=playlist["id"], items=songs_uris)
+        print(adding_songs)
+
+    else:
+        print("Sorry, the playlist already exists...")
+
+
+# existing_playlists = sp.user_playlists(user=config.USER_ID)
+# print(existing_playlists)
+## BY GETTING THE ALREADY EXISTING PLAYLISTS I AM TRYING TO STOP CREATING PLAYLISTS WITH THE SAME NAME BUT
+## I CAN'T GET IT DONE AT THE MOMENT ACCURATELY. SO I AM USING FILES INSTEAD, IN THE ABOVE LINES
