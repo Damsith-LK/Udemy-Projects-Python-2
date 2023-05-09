@@ -2,13 +2,19 @@
 
 import requests
 from bs4 import BeautifulSoup
+import lxml
+import smtplib
+import config
 
+preferred_price = 450
 URL = "https://www.amazon.com/PlayStation-5-Console-CFI-1215A01X/dp/B0BCNKKZ91/ref=sr_1_2?crid=3OJOOBDL3OVVH&keywords=ps5&qid=1683460711&sprefix=ps%2Caps%2C296&sr=8-2&th=1"
 headers = {
-    "Accept-Language": "en-US,en;q=0.9",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68"
+    "User-Agent": config.user_agent,
+    "Accept-Language": config.accept_language
 }
 response = requests.get(url=URL, headers=headers)
-contents = response.text
-soup = BeautifulSoup(contents, 'html.parser')
-print(soup)
+contents = response.content
+soup = BeautifulSoup(contents, 'lxml')
+
+price = float(soup.find(class_="a-offscreen").get_text().split("$")[1])
+print(price)
