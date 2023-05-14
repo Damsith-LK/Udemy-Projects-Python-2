@@ -60,3 +60,11 @@ while True:
 
         timeout += 10
         time.sleep(0.5)  # In order to avoid crashing
+
+    # After 5 minutes have passed since starting the game, stop the bot and print the "cookies/second"
+    if time.time() > five_min:
+        cookies_per_second = driver.find_element(By.ID, "cps").text
+        break
+
+print(cookies_per_second)
+driver.quit()
