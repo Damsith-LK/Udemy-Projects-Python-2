@@ -4,6 +4,13 @@
 
 ## 🚀 Projects I have completed and days I have finished:
 
+- ### Day 48 (Learning about Selenium, Complete "Cookie-clicker")
+  - #### About Cookie Clicker made using Selenium
+            1. Program starts auto-clicking on the cookie at https://orteil.dashnet.org/experiments/cookie/ using Selenium
+            2. For every 10 seconds, the program checks the right panel of the game where upgrades can be purchased
+            3. Then it purchases the the most expensive affordable upgrade
+            4. After 5 minutes, the program ends and prints out number of 'Cookies per second'
+
 - ### Amazon Price Tracker 💵 (Day 47)
       1. First the program gets the price of the product (The url is given)
       2. Then it checks if that price is smaller than the preferred purchase price in the code
@@ -21,6 +28,14 @@
 
 
 ## 🖼️ Pictures of my projects:
+
+- Day 48
+
+![image](https://github.com/Damsith-LK/Udemy-Projects-Python-2/assets/113516635/6f4f4908-4e8d-4133-b048-d9b644839989)
+![image](https://github.com/Damsith-LK/Udemy-Projects-Python-2/assets/113516635/54c6565c-b8d8-4427-b02f-c6297f556a86)
+
+
+
 
  - Day 47
  
