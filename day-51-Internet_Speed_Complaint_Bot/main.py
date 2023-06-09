@@ -3,6 +3,7 @@ import time
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import NoSuchElementException
 import config
 
 
@@ -14,6 +15,7 @@ class InternetSpeedBot:
     def __init__(self):
         service = Service(executable_path=CHROME_DRIVER_PATH)
         self.driver = Chrome(service=service)
+        self.driver.maximize_window()
         self.down = 0
         self.up = 0
 
@@ -39,10 +41,20 @@ class InternetSpeedBot:
         time.sleep(1)
         # Clicking on "Next" button
         self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]').click()
-        time.sleep(10)  # I'm delaying 10 seconds because it sometimes asks to enter the username to verify
-        # Entering the password
-        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(config.PASSWORD)
         time.sleep(1)
+
+        try:  # Trying to enter the password
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(config.PASSWORD)
+        except NoSuchElementException:  # If it asks for username
+            time.sleep(2)
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input').send_keys(config.USERNAME)
+            time.sleep(2)
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div').click()  # Clicking on "Next Button"
+            time.sleep(1)
+            # Entering the password
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(config.PASSWORD)
+            time.sleep(1)
+
         # Clicking on "Log In" button
         self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div').click()
 
