@@ -29,8 +29,23 @@ class InternetSpeedBot:
         print(f"Upload Speed: {self.up}")
 
     def tweet_at_provider(self):
-        pass
+        """Tweets the internet speeds got from the get_internet_speed() method"""
+
+        # Going to the twitter log in page
+        self.driver.get("https://twitter.com/i/flow/login")
+        time.sleep(1)
+        # Entering the email
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input').send_keys(config.EMAIL)
+        time.sleep(1)
+        # Clicking on "Next" button
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]').click()
+        time.sleep(10)  # I'm delaying 10 seconds because it sometimes asks to enter the username to verify
+        # Entering the password
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(config.PASSWORD)
+        time.sleep(1)
+        # Clicking on "Log In" button
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div').click()
 
 
 speed_bot = InternetSpeedBot()
-speed_bot.get_internet_speed()
+speed_bot.tweet_at_provider()
