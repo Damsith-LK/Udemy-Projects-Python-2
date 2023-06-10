@@ -4,6 +4,14 @@
 
 ## 🚀 Projects I have completed and days I have finished:
 
+
+- ### Internet Speed Complaint Bot 🤖 (Day 51)
+      1. The program goes to https://www.speedtest.net and fetches internet speeds
+      2. Then it logs into twitter
+      3. After that, the program checks if my current internet speed is slower than my desired internet speed
+      4. If so, then it sends a tweet complaining about that
+      5. Else, it sends a tweet saying the internet speed is good
+
 - ### Day 48 (Learning about Selenium, Complete "Cookie-clicker")
   - #### About Cookie Clicker made using Selenium
             1. Program starts auto-clicking on the cookie at https://orteil.dashnet.org/experiments/cookie/ using Selenium
