@@ -5,7 +5,7 @@
 ## 🚀 Projects I have completed and days I have finished:
 
 
-- ### Internet Speed Complaint Bot 🤖 (Day 51)
+- ### [Internet Speed Complaint Bot](https://twitter.com/InternetBo42959) 🤖 (Day 51)
       1. The program goes to https://www.speedtest.net and fetches internet speeds
       2. Then it logs into twitter
       3. After that, the program checks if my current internet speed is slower than my desired internet speed
