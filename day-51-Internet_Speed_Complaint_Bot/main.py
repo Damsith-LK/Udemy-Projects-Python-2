@@ -16,8 +16,8 @@ class InternetSpeedBot:
         service = Service(executable_path=CHROME_DRIVER_PATH)
         self.driver = Chrome(service=service)
         self.driver.maximize_window()
-        self.down = 50  # In mbps
-        self.up = 40
+        self.down = 60  # In mbps
+        self.up = 20
 
     def get_internet_speed(self):
         """Fetches the internet speeds from "https://www.speedtest.net" """
@@ -60,17 +60,31 @@ class InternetSpeedBot:
         # Clicking on "Log In" button
         self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div').click()
 
-        bad_tweet = f"Hey Internet Provider, why is my internet speed {download_speed}down/{upload_speed}up when I pay" \
-                    f"for {self.down}down/{self.up}/up?"
+        bad_tweet = f"Hey Internet Provider, why is my internet speed {download_speed}down/{upload_speed}up when I pay " \
+                    f"for {self.down}down/{self.up}up?\n(Speeds are in Mbps)"
         good_tweet = f"Hey Internet Provider, my internet speed is as it should be. Thanks for it."
 
-        ####### After logging in to Twitter #######
-        # Writing the tweet (Have to wait 20 seconds to load up the page)
+        ########################## After logging in to Twitter ############################
+
         time.sleep(20)
-        self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div[2]/div/div/div/div/label/div[1]/div/div/div/div/div/div[2]/div/div/div/div').send_keys("Test Tweet 2")
+        try:
+            tweet_entry = self.find_tweet_entry()
+        except NoSuchElementException:
+            tweet_entry = self.find_tweet_entry()
+
+        if self.down > download_speed or self.up > upload_speed:  # If current speeds are slower than the expected speeds
+            tweet_entry.send_keys(bad_tweet)
+        else:
+            tweet_entry.send_keys(good_tweet)
+
         # Clicking on "Tweet" button
         self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[2]/div[2]/div/div/div[2]/div[3]').click()
-        time.sleep(10)
+        time.sleep(1)
+
+    def find_tweet_entry(self):
+        """The only purpose of this method is to avoid crashing that happens when the program looks for the tweet entry"""
+        entry = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div[2]/div/div/div/div/label/div[1]/div/div/div/div/div/div[2]/div/div/div/div')
+        return entry
 
 
 speed_bot = InternetSpeedBot()
