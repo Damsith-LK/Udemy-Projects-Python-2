@@ -58,6 +58,14 @@ class InternetSpeedBot:
         # Clicking on "Log In" button
         self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div').click()
 
+        ####### After logging in to Twitter #######
+        # Writing the tweet (Have to wait 20 seconds to load up the page)
+        time.sleep(20)
+        self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div[2]/div/div/div/div/label/div[1]/div/div/div/div/div/div[2]/div/div/div/div').send_keys("Test Tweet 2")
+        # Clicking on "Tweet" button
+        self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[2]/div[2]/div/div/div[2]/div[3]').click()
+        time.sleep(10)
+
 
 speed_bot = InternetSpeedBot()
 speed_bot.tweet_at_provider()
