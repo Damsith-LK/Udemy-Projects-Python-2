@@ -19,12 +19,12 @@ class TwitterFollower:
         self.driver = Chrome(service=service)
 
     def login(self):
+        """Logs in to Twitter"""
         self.driver.get("https://twitter.com/i/flow/login")
         time.sleep(1)
 
         # Entering the email
-        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input').send_keys(
-            config.EMAIL)
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input').send_keys(config.EMAIL)
         time.sleep(1)
         # Clicking on "Next" button
         self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]').click()
@@ -44,10 +44,24 @@ class TwitterFollower:
 
         # Clicking on "Log In" button
         self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div').click()
-        time.sleep(5)
+        time.sleep(2)
 
     def find_followers(self):
-        pass
+        self.driver.get(f"https://twitter.com/{TARGETED_ACCOUNT}/followers")  # Going to the page of followers
+        follower_list = []
+        # Code to goto End of the Page
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
+        while True:
+            # Scroll down to bottom
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            # Wait to load page
+            time.sleep(1)
+            # Calculate new scroll height and compare with last scroll height
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                break
+            last_height = new_height
+
 
     def follow(self):
         pass
