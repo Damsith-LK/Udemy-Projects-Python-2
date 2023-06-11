@@ -4,7 +4,9 @@
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import NoSuchElementException
 import time
+import config
 
 CHROME_DRIVER_PATH = "C:\\chrome-driver\\chromedriver.exe"
 TARGETED_ACCOUNT = "Wanindu49"
@@ -17,7 +19,32 @@ class TwitterFollower:
         self.driver = Chrome(service=service)
 
     def login(self):
-        pass
+        self.driver.get("https://twitter.com/i/flow/login")
+        time.sleep(1)
+
+        # Entering the email
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input').send_keys(
+            config.EMAIL)
+        time.sleep(1)
+        # Clicking on "Next" button
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]').click()
+        time.sleep(1)
+
+        try:  # Trying to enter the password
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(config.PASSWORD)
+        except NoSuchElementException:  # If it asks for username
+            time.sleep(2)
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input').send_keys(config.USERNAME)
+            time.sleep(2)
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div').click()  # Clicking on "Next Button"
+            time.sleep(1)
+            # Entering the password
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(config.PASSWORD)
+        time.sleep(1)
+
+        # Clicking on "Log In" button
+        self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div').click()
+        time.sleep(5)
 
     def find_followers(self):
         pass
