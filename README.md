@@ -5,6 +5,12 @@
 ## 🚀 Projects I have completed and days I have finished:
 
 
+- ### Twitter Follower Bot 🤖 (Day 52)
+       1. First of all, the program logs into the twitter
+       2. Then, it goes to the targeted account
+       3. After that, it would follow users of the targeted account until failure (Until something saying I can't follow this much pops up)
+
+
 - ### [Internet Speed Complaint Bot](https://twitter.com/InternetBo42959) 🤖 (Day 51)
       1. The program goes to https://www.speedtest.net and fetches internet speeds
       2. Then it logs into twitter
