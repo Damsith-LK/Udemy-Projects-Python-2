@@ -46,11 +46,13 @@ class TwitterFollower:
         self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div').click()
         time.sleep(2)
 
-    def find_followers(self):
+    def find_followers_and_follow(self):
+        """Finds and follows the followers of the targeted account"""
 
         self.driver.get(f"https://twitter.com/{TARGETED_ACCOUNT}/followers")  # Going to the page of followers
         time.sleep(2)
         follower_list = []
+        ### CODE TO SCROLL IS BELOW BUT IT SEEMS AS IF IT IS NO LONGER WANTED SINCE TWITTER DOESN'T ALLOW MORE THAN 400 FOLLOWS PER DAY###
         # # Code to goto End of the Page
         # last_height = self.driver.execute_script("return document.body.scrollHeight")
         # while True:
@@ -63,23 +65,18 @@ class TwitterFollower:
         #     if new_height == last_height:
         #         break
         #     last_height = new_height
-        #
-        #     # Getting the elements
-        #     elements = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/section/div/div').find_elements(By.TAG_NAME, 'div')
-        #
-        #     for element in elements:
-        #         element.find_element(By.XPATH, 'div/div/div/div/div[2]/div[1]/div[2]/div').click()  # Clicking on follow buttons
 
+        # Following people until the limit gets reached
         for i in range(1, 1000):
-            button = self.driver.find_element(By.XPATH, f'//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/section/div/div/div[{i}]/div/div/div/div/div[2]/div[1]/div[2]/div')
-            button.click()
+            try:
+                button = self.driver.find_element(By.XPATH, f'//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/section/div/div/div[{i}]/div/div/div/div/div[2]/div[1]/div[2]/div')
+                button.click()
+            except NoSuchElementException:
+                # This would be raised if the maximum follow amount is reached
+                break
             time.sleep(1)
-
-    def follow(self):
-        pass
 
 
 follower = TwitterFollower()
 follower.login()
-follower.find_followers()
-follower.follow()
+follower.find_followers_and_follow()
