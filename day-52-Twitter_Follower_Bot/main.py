@@ -4,7 +4,7 @@
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 import time
 import config
 
@@ -51,7 +51,7 @@ class TwitterFollower:
 
         self.driver.get(f"https://twitter.com/{TARGETED_ACCOUNT}/followers")  # Going to the page of followers
         time.sleep(2)
-        follower_list = []
+
         ### CODE TO SCROLL IS BELOW BUT IT SEEMS AS IF IT IS NO LONGER WANTED SINCE TWITTER DOESN'T ALLOW MORE THAN 400 FOLLOWS PER DAY###
         # # Code to goto End of the Page
         # last_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -74,6 +74,9 @@ class TwitterFollower:
             except NoSuchElementException:
                 # This would be raised if the maximum follow amount is reached
                 break
+            except ElementClickInterceptedException:
+                # If selenium can't click a follow button
+                pass
             time.sleep(1)
 
 
