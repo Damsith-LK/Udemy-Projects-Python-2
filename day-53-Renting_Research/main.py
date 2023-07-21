@@ -76,4 +76,7 @@ class RentingResearch:
 
 rr = RentingResearch()
 links_list, prices_list, addresses_list = rr.get_houses_info()
+print(links_list)
+print(prices_list)
+print(addresses_list)
 rr.update(links_list, prices_list, addresses_list)
